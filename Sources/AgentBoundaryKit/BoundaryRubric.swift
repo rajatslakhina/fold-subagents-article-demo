@@ -129,7 +129,11 @@ public struct BoundaryRubric: Sendable {
         }
 
         // Pass 2: verdicts. A fold candidate merges with its strongest partner
-        // only if that partner is also a fold candidate.
+        // only if that partner is also a fold candidate and the choice is mutual
+        // (A's strongest partner is B and B's is A), so verdicts never disagree.
+        let strongest = Dictionary(uniqueKeysWithValues: topology.subagents.map { agent in
+            (agent.id, strongestPartner(of: agent.id, in: stats).map { $0.pair.from == agent.id ? $0.pair.to : $0.pair.from })
+        })
         return topology.subagents.map { agent in
             let partner = strongestPartner(of: agent.id, in: stats)
             let other = partner.map { $0.pair.from == agent.id ? $0.pair.to : $0.pair.from }
@@ -138,7 +142,8 @@ public struct BoundaryRubric: Sendable {
             if !why.isEmpty {
                 verdict = .keep(why)
             } else if let partner, let other, partner.share >= thresholds.minPairShare,
-                      let otherReasons = reasons[other], otherReasons.isEmpty {
+                      let otherReasons = reasons[other], otherReasons.isEmpty,
+                      strongest[other] == .some(agent.id) {
                 verdict = .foldWith(partner: other, pairShare: partner.share)
             } else {
                 verdict = .fold

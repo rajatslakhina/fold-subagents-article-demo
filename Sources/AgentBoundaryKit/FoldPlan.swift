@@ -45,8 +45,9 @@ public struct FoldPlan: Sendable, Hashable {
 
         for candidate in candidates where !placed.contains(candidate.agent) {
             var group = [candidate.agent]
-            if case .foldWith(let partner, _) = candidate.verdict,
-               !placed.contains(partner), byID[partner]?.verdict.isFold == true {
+            // Group only a mutual pair: the partner's verdict must name this agent back.
+            if case .foldWith(let partner, _) = candidate.verdict, !placed.contains(partner),
+               case .foldWith(let back, _)? = byID[partner]?.verdict, back == candidate.agent {
                 group.append(partner)
             }
             let specs = group.compactMap { topology.agent($0) }
