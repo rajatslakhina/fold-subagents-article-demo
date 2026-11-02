@@ -24,7 +24,7 @@ svg{position:absolute;left:0;top:0}
 <div class="q" style="top:246px">2. Is ≥ 50% of its work parallel fan-out?<span>parallelShare ≥ 0.5</span></div>
 <div class="y" style="top:246px">Keep: parallelism<span>Fresh contexts, thrown away after</span></div>
 <div class="q" style="top:352px">3. Main context + its working set &gt; budget?<span>18k + workingSet &gt; 120k</span></div>
-<div class="y" style="top:352px">Keep: isolation<span>Divide by context, hand back a compact result</span></div>
+<div class="y" style="top:352px">Keep: isolation<span>Isolate a big private context, return a short answer</span></div>
 <div class="q" style="top:458px">4. Main tools ∪ its tools &gt; tool budget?<span>tools &gt; 40 (guidance: 30–50)</span></div>
 <div class="y" style="top:458px">Keep: tool choice would degrade<span>Or put the tools behind tool search</span></div>
 <div class="q" style="top:564px">5. Does its prompt contradict the main prompt?<span>rules[key] ≠ mainRules[key]</span></div>
