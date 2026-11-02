@@ -2,7 +2,7 @@
 
 **Which of your subagents should fold back into the main agent loop?** A Swift package that scores each subagent boundary the way an iOS lead scores a module boundary, plans the folds, and gates each one with an eval that looks at flipped tasks instead of the mean. Includes an iOS demo app.
 
-Article: (added after publish)
+Article: [Anthropic Says Fold Your Subagents Back In. I Scored Seven Like Swift Modules, and Four Should Go.](https://medium.com/@er.rajatlakhina/anthropic-says-fold-your-subagents-back-in-i-scored-seven-like-swift-modules-and-four-should-go-e36339578148) (Medium)
 
 ![Three iOS Simulator screenshots of the demo app: Boundaries, Fold plan and Eval gate.](docs/simulator.png)
 
@@ -61,8 +61,9 @@ swift build && swift test
 
 ## Verification status
 
-- `swift build -Xswiftc -warnings-as-errors` and `swift test` (27 tests, 0 failures) pass on Linux (Swift 6.1.2), and in the `library` CI job on macOS.
+- `swift build -Xswiftc -warnings-as-errors` and `swift test` (29 tests, 0 failures) pass on Linux (Swift 6.1.2), and in the `library` CI job on macOS.
 - The `demo-on-simulator` CI job builds `Demo.xcodeproj` for an iPhone Simulator, installs and launches the app four times with a process-alive check, and commits the screenshots in `Demo/Screenshots/`. It is not a hand-run in local Xcode.
+- Latest CI run: [41411346162](https://github.com/rajatslakhina/fold-subagents-article-demo/actions/runs/41411346162) on `b97ff69`, both jobs green.
 
 ## License
 
