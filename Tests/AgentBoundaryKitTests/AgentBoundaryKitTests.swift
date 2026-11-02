@@ -157,6 +157,42 @@ final class FoldPlanTests: XCTestCase {
         XCTAssertTrue(plan.steps[0].chainsToCover.isEmpty)
     }
 
+    func testOnlyMutualPartnersFoldTogether() {
+        // A's strongest partner is B (3 of 14 tasks), but B's is C (5 of 14).
+        // A is the most-used agent, yet it must fold alone and B goes with C.
+        let specs = ["A", "B", "C"].map { AgentSpec(id: $0, owner: "X", workingSetTokens: 100) }
+        let topology = Topology(mainTools: [], mainRules: [:], mainContextTokens: 1_000, subagents: specs)
+        func trace(_ id: String, _ agents: [String]) -> TaskTrace {
+            TaskTrace(id: id, invocations: agents.map { Invocation(agent: $0, handoffOutTokens: 10) })
+        }
+        let traces = (1...3).map { trace("ab\($0)", ["A", "B"]) }
+            + (1...5).map { trace("bc\($0)", ["B", "C"]) }
+            + (1...6).map { trace("a\($0)", ["A"]) }
+        let thresholds = RubricThresholds(minPairShare: 0.2)
+        let assessments = BoundaryRubric(thresholds: thresholds).assess(topology: topology, traces: traces)
+        let byID = Dictionary(uniqueKeysWithValues: assessments.map { ($0.agent, $0.verdict) })
+        XCTAssertEqual(byID["A"], .fold)
+        XCTAssertEqual(byID["B"], .foldWith(partner: "C", pairShare: 5.0 / 14.0))
+        XCTAssertEqual(byID["C"], .foldWith(partner: "B", pairShare: 5.0 / 14.0))
+        let plan = FoldPlan.make(topology: topology, traces: traces, assessments: assessments, thresholds: thresholds)
+        XCTAssertEqual(plan.steps.map(\.agents), [["A"], ["B", "C"]])
+    }
+
+    func testPlanIgnoresAOneSidedPartnerClaim() {
+        // Hand-built assessments where X claims Y but Y does not claim X back.
+        let specs = ["X", "Y"].map { AgentSpec(id: $0, owner: "O", workingSetTokens: 10) }
+        let topology = Topology(mainTools: [], mainRules: [:], mainContextTokens: 0, subagents: specs)
+        func assessment(_ id: String, _ verdict: Verdict, _ share: Double) -> BoundaryAssessment {
+            BoundaryAssessment(agent: id, role: .specialist, verdict: verdict, callShare: share, parallelShare: 0,
+                               compressionRatio: 0, strongestPartner: nil, strongestPairShare: 0, partnerEntityOverlap: 0)
+        }
+        let plan = FoldPlan.make(topology: topology, traces: [], assessments: [
+            assessment("X", .foldWith(partner: "Y", pairShare: 0.5), 0.9),
+            assessment("Y", .fold, 0.5),
+        ])
+        XCTAssertEqual(plan.steps.map(\.agents), [["X"], ["Y"]])
+    }
+
     func testCumulativeBudgetDefersLaterFolds() {
         // Each agent passes the per-agent check; together they would not.
         let thresholds = RubricThresholds(contextBudgetTokens: 30_000)
