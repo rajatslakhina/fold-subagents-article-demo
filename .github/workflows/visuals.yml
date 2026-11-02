@@ -1,0 +1,35 @@
+name: Visuals
+
+on:
+  push:
+    branches: [main]
+    paths: ['docs/src/**']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install the fonts the HTML names (Inter, DejaVu Sans Mono)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y fonts-inter fonts-dejavu-core fonts-dejavu-mono
+      - name: Render header, diagram and chart at 2x
+        run: |
+          npm install --no-save playwright@1.63.0
+          npx playwright install --with-deps chromium
+          node docs/src/render.js
+      - name: Commit visuals if they changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/header.png docs/diagram.png docs/gate.png
+          if ! git diff --cached --quiet; then
+            git commit -m "Render article visuals [skip ci]"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi

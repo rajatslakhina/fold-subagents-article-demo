@@ -1,0 +1,53 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - 'docs/**'
+      - '**.md'
+  workflow_dispatch:
+
+concurrency:
+  group: ci-main
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  library:
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@v4
+      - name: swift build (warnings as errors)
+        run: swift build -Xswiftc -warnings-as-errors
+      - name: swift test
+        run: swift test
+
+  demo-on-simulator:
+    runs-on: macos-15
+    needs: library
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build, install, launch and screenshot on iOS Simulator
+        run: bash Scripts/simulator-screenshots.sh
+      - name: Compose the Simulator figure
+        run: |
+          python3 -m pip install --quiet pillow || python3 -m pip install --quiet --break-system-packages pillow
+          python3 docs/src/compose_simulator.py docs/simulator.png Demo/Screenshots/boundaries.png Demo/Screenshots/plan.png Demo/Screenshots/gate.png
+      - name: Upload screenshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: simulator-screenshots
+          path: Demo/Screenshots/*.png
+      - name: Commit screenshots if they changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add Demo/Screenshots/*.png docs/simulator.png
+          if ! git diff --cached --quiet; then
+            git commit -m "Simulator screenshots from CI [skip ci]"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
