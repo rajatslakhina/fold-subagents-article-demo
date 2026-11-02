@@ -1,0 +1,33 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+*{box-sizing:border-box;margin:0}body{width:1400px;height:760px;background:#fff;font-family:Inter,"DejaVu Sans",sans-serif;color:#0f172a;position:relative}
+h1{position:absolute;left:70px;top:44px;font-size:34px;font-weight:800}
+.sub{position:absolute;left:70px;top:96px;font-size:19px;color:#475569}
+.bar{position:absolute;bottom:250px;width:200px;border-radius:10px 10px 0 0}
+.v{position:absolute;width:200px;text-align:center;font-size:40px;font-weight:800}
+.n{position:absolute;width:200px;text-align:center;font-size:20px;color:#334155;top:524px;font-weight:600}
+.axis{position:absolute;left:120px;top:510px;width:520px;height:2px;background:#94a3b8}
+.card{position:absolute;left:760px;top:170px;width:570px;border:3px solid #ef4444;border-radius:16px;padding:26px 30px;background:#fef2f2}
+.card h2{font-size:26px;color:#991b1b;margin-bottom:10px}
+.card p{font-size:19px;line-height:1.45;color:#450a0a;margin-bottom:12px}
+.run{display:inline-block;width:46px;height:46px;border-radius:10px;margin-right:8px;color:#fff;font-weight:800;font-size:22px;text-align:center;line-height:46px}
+.ok{background:#16a34a}.no{background:#dc2626}
+.row{display:flex;align-items:center;font-size:18px;font-weight:600;margin:8px 0}.row b{width:120px}
+.foot{position:absolute;left:70px;bottom:60px;font-size:18px;color:#475569;width:1260px;line-height:1.4}
+.foot code{font-family:"DejaVu Sans Mono",monospace;background:#f1f5f9;padding:2px 6px;border-radius:5px}
+</style></head><body>
+<h1>The mean went up. The gate still blocked the fold.</h1>
+<div class="sub">10 golden tasks × 2 runs per variant (sample data in AgentBoundaryKit)</div>
+<div class="bar" style="left:160px;height:221px;background:#94a3b8;bottom:250px"></div>
+<div class="v" style="left:160px;top:224px;color:#475569">85%</div>
+<div class="bar" style="left:400px;height:234px;background:#22c55e;bottom:250px"></div>
+<div class="v" style="left:400px;top:211px;color:#15803d">90%</div>
+<div class="axis"></div>
+<div class="n" style="left:160px">Baseline<br><span style="font-weight:400">17 of 20 runs</span></div>
+<div class="n" style="left:400px">Folded<br><span style="font-weight:400">18 of 20 runs</span></div>
+<div class="card"><h2>G5 flipped</h2>
+<p>“Localized What’s New matches the English notes”</p>
+<div class="row"><b>Baseline</b><span class="run ok">✓</span><span class="run ok">✓</span></div>
+<div class="row"><b>Folded</b><span class="run ok">✓</span><span class="run no">✗</span></div>
+<p style="margin-top:14px">Passed every baseline run, failed one folded run. One run would have missed it.</p></div>
+<div class="foot">Also flagged: no eval task covers <code>CrashTriage → ReleaseNotesWriter</code>, a chain in 10% of production tasks. G7 failed one run in both variants, so it is not counted as a flip.</div>
+</body></html>

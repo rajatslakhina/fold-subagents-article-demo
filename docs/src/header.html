@@ -1,0 +1,32 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+*{box-sizing:border-box;margin:0}body{width:1400px;height:700px;background:#0f172a;font-family:Inter,"DejaVu Sans",sans-serif;color:#e2e8f0;position:relative;overflow:hidden}
+.t{position:absolute;left:70px;top:64px;font-size:50px;font-weight:800;line-height:1.12;width:760px;color:#f8fafc}
+.s{position:absolute;left:70px;top:270px;font-size:24px;color:#94a3b8;width:700px;line-height:1.4}
+.k{position:absolute;left:70px;bottom:60px;font-size:18px;color:#64748b;font-family:"DejaVu Sans Mono",monospace}
+.main{position:absolute;left:880px;top:70px;width:450px;height:96px;border-radius:16px;background:#1e293b;border:3px solid #38bdf8;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700}
+.a{position:absolute;width:118px;height:62px;border-radius:12px;font-size:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;font-weight:600;line-height:1.2}
+.f{border:2px dashed #4ade80;color:#86efac;background:#0f2a1f}
+.kp{border:3px solid #60a5fa;background:#1e3a8a;color:#dbeafe}
+.fx{border:3px solid #fb923c;background:#431407;color:#fed7aa}
+.a small{font-weight:500;font-size:12px;opacity:.85;margin-top:3px}
+svg{position:absolute;left:0;top:0}
+</style></head><body>
+<div class="t">Fold your subagents back in. Keep only the boundaries the workload pays for.</div>
+<div class="s">Isolation, parallelism, ownership: the same rubric iOS leads use for modules, scored from traces and gated by an eval.</div>
+<div class="k">AgentBoundaryKit · Swift package + iOS demo</div>
+<svg width="1400" height="700">
+ <g stroke="#4ade80" stroke-width="2" stroke-dasharray="6 6" fill="none">
+  <path d="M932 250 L932 166"/><path d="M1047 250 L1047 166"/><path d="M1162 250 L1162 166"/><path d="M1277 250 L1277 166"/>
+ </g>
+ <g stroke="#64748b" stroke-width="2" fill="none"><path d="M990 430 L990 166"/><path d="M1105 430 L1105 166"/><path d="M1220 430 L1220 166"/></g>
+</svg>
+<div class="main">Main agent loop</div>
+<div class="a f" style="left:880px;top:250px;width:104px">Router<small>fold</small></div>
+<div class="a f" style="left:995px;top:250px;width:104px">Changelog<small>fold as a pair</small></div>
+<div class="a f" style="left:1110px;top:250px;width:104px">Notes<small>fold as a pair</small></div>
+<div class="a f" style="left:1225px;top:250px;width:104px">Metadata<small>fold</small></div>
+<div class="a kp" style="left:935px;top:430px;width:110px;height:70px">CrashTriage<small>keep · context</small></div>
+<div class="a kp" style="left:1050px;top:430px;width:110px;height:70px">Localization<small>keep · parallel</small></div>
+<div class="a fx" style="left:1165px;top:430px;width:110px;height:70px">ReviewReply<small>fix tone, then fold</small></div>
+<div style="position:absolute;left:880px;top:540px;width:450px;font-size:16px;color:#94a3b8;text-align:center">4 of 7 fold · 3 keep, 1 of them after a one-line fix</div>
+</body></html>

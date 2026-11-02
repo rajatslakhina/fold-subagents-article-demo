@@ -1,0 +1,35 @@
+<!doctype html><html><head><meta charset="utf-8"><style>
+*{box-sizing:border-box;margin:0}body{width:1400px;height:820px;background:#f8fafc;font-family:Inter,"DejaVu Sans",sans-serif;color:#0f172a;position:relative}
+h1{position:absolute;left:60px;top:40px;font-size:34px;font-weight:800}
+.sub{position:absolute;left:60px;top:92px;font-size:19px;color:#475569}
+.q{position:absolute;left:60px;width:640px;height:84px;border-radius:14px;background:#fff;border:2px solid #cbd5e1;padding:14px 22px;font-size:20px;font-weight:700}
+.q span{display:block;font-size:15px;font-weight:500;color:#64748b;margin-top:5px;font-family:"DejaVu Sans Mono",monospace}
+.y{position:absolute;left:800px;width:540px;height:84px;border-radius:14px;background:#dbeafe;border:2px solid #3b82f6;padding:14px 22px;font-size:19px;font-weight:700;color:#1e3a8a}
+.y span{display:block;font-size:15px;font-weight:500;margin-top:5px}
+.fx{background:#ffedd5;border-color:#f97316;color:#7c2d12}
+.fold{position:absolute;left:60px;top:690px;width:1280px;height:96px;border-radius:14px;background:#dcfce7;border:2px solid #22c55e;padding:16px 24px;font-size:21px;font-weight:700;color:#14532d}
+.fold span{display:block;font-size:16px;font-weight:500;margin-top:6px}
+svg{position:absolute;left:0;top:0}
+.lbl{position:absolute;font-size:15px;font-weight:700;color:#334155}
+</style></head><body>
+<h1>Does this subagent boundary pay for itself?</h1>
+<div class="sub">Any “yes” keeps it. Five “no”s and it folds into the main loop as a skill plus tools.</div>
+<svg width="1400" height="820"><g stroke="#94a3b8" stroke-width="3" fill="none" marker-end="url(#m)">
+<defs><marker id="m" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" refX="12" refY="7" orient="auto"><path d="M0,0 L14,7 L0,14 z" fill="#94a3b8"/></marker></defs>
+<path d="M700 182 L796 182"/><path d="M700 288 L796 288"/><path d="M700 394 L796 394"/><path d="M700 500 L796 500"/><path d="M700 606 L796 606"/>
+<path d="M380 224 L380 242"/><path d="M380 330 L380 348"/><path d="M380 436 L380 454"/><path d="M380 542 L380 560"/><path d="M380 648 L380 686"/>
+</g></svg>
+<div class="q" style="top:140px">1. Does it talk to the user directly?<span>talksToUser</span></div>
+<div class="y" style="top:140px">Keep: it owns the conversation<span>A full handoff is real here</span></div>
+<div class="q" style="top:246px">2. Is ≥ 50% of its work parallel fan-out?<span>parallelShare ≥ 0.5</span></div>
+<div class="y" style="top:246px">Keep: parallelism<span>Fresh contexts, thrown away after</span></div>
+<div class="q" style="top:352px">3. Main context + its working set &gt; budget?<span>18k + workingSet &gt; 120k</span></div>
+<div class="y" style="top:352px">Keep: isolation<span>Divide by context, hand back a compact result</span></div>
+<div class="q" style="top:458px">4. Main tools ∪ its tools &gt; tool budget?<span>tools &gt; 40 (guidance: 30–50)</span></div>
+<div class="y" style="top:458px">Keep: tool choice would degrade<span>Or put the tools behind tool search</span></div>
+<div class="q" style="top:564px">5. Does its prompt contradict the main prompt?<span>rules[key] ≠ mainRules[key]</span></div>
+<div class="y fx" style="top:564px">Keep for now: fix the prompt, then fold<span>The only keep reason that is an afternoon’s work</span></div>
+<div class="lbl" style="left:722px;top:160px">yes</div><div class="lbl" style="left:722px;top:266px">yes</div><div class="lbl" style="left:722px;top:372px">yes</div><div class="lbl" style="left:722px;top:478px">yes</div><div class="lbl" style="left:722px;top:584px">yes</div>
+<div class="lbl" style="left:396px;top:655px">no to all five</div>
+<div class="fold">Fold. If it runs right next to another fold candidate in ≥ 25% of tasks, fold them together as one step.<span>Then the eval gate: every production chain covered, 2+ runs per variant, and no task that passed every baseline run may fail a folded run.</span></div>
+</body></html>
